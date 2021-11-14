@@ -1,0 +1,7 @@
+%syntax-version=1.0.0
+%project=outbox
+
+create_schema 2021-11-14T12:49:51Z SqitchUser <no@email> # Create schema
+x_uuid_ossp 2021-11-14T14:31:18Z SqitchUser <no@email> # Enable uuid-ossp extension
+outbox 2021-11-14T14:15:05Z SqitchUser <no@email> # Create outbox table
+@v1.0.0-dev1 2021-11-14T19:57:59Z SqitchUser <no@email> # Tag v1.0.0-dev1.
