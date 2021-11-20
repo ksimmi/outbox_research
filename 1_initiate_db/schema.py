@@ -3,7 +3,7 @@ from sqlalchemy import MetaData
 from sqlalchemy import Table, Column, String, JSON
 from sqlalchemy.dialects.postgresql import UUID
 
-engine = create_engine('postgresql://postgres:qwerty@localhost/outbox_research', echo=True, future=True)
+engine = create_engine('postgresql://postgres:qwerty@localhost/outbox_research')
 metadata = MetaData()
 
 Outbox = Table(
