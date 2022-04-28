@@ -3,10 +3,10 @@ from sqlalchemy import MetaData
 from sqlalchemy import Table, Column, String, JSON
 from sqlalchemy.dialects.postgresql import UUID
 
-engine = create_engine('postgresql://root:qwerty@localhost/outbox_research')
-metadata = MetaData()
+engine = create_engine('postgresql://root:qwerty@localhost/outbox_research', echo=True)
+metadata = MetaData(schema='app')
 
-Outbox = Table(
+tOutbox = Table(
     "outbox",
     metadata,
     Column('id', UUID, primary_key=True, server_default=text("uuid_generate_v4()")),
