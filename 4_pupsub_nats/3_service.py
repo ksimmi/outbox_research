@@ -15,21 +15,21 @@ async def main():
         nc = NATS()
         await nc.connect("nats://localhost:4222")
 
-        while True:
-            str = input('type something and press Enter: ').encode()
-            try:
-                response = await nc.request("help", str)
-                print(response)
-            except Exception as e:
-                print("Error:", e)
-
-        # for i in range(1, 1000000):
-        #     await asyncio.sleep(1)
+        # while True:
+        #     str = input('type something and press Enter: ').encode()
         #     try:
-        #         response = await nc.request("help", b'hi')
+        #         response = await nc.request("help", str)
         #         print(response)
         #     except Exception as e:
         #         print("Error:", e)
+
+        for i in range(1, 1000000):
+            await asyncio.sleep(1)
+            try:
+                response = await nc.request("help", b'hi')
+                print(response)
+            except Exception as e:
+                print("Error:", e)
 
         nc.close()
 
@@ -73,14 +73,6 @@ async def main():
         # among subscribers.
         await nc.subscribe("help", "workers", help_request)
 
-        # print("Listening for requests on 'help' subject...")
-        # for i in range(1, 1000000):
-        #     await asyncio.sleep(1)
-        #     try:
-        #         response = await nc.request("help", b'hi')
-        #         print(response)
-        #     except Exception as e:
-        #         print("Error:", e)
     tasks.append(asyncio.create_task(client()))
     tasks.append(asyncio.create_task(server()))
 
