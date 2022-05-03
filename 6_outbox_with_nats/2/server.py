@@ -26,6 +26,12 @@ async def reconnected_cb():
     print("Got reconnected...")
 
 
+def handle_stop_signals():
+    for stop_signal in ('SIGINT', 'SIGTERM'):
+        asyncio.get_running_loop().add_signal_handler(
+            getattr(signal, stop_signal), signal_handler)
+
+
 class NATSServer:
 
     def __init__(self, subscribers=[]):
@@ -34,8 +40,7 @@ class NATSServer:
     def __await__(self):
         async def server(subscribers=[]):
 
-            for stop_signal in ('SIGINT', 'SIGTERM'):
-                asyncio.get_running_loop().add_signal_handler(getattr(signal, stop_signal), signal_handler)
+            handle_stop_signals()
 
             await nc.connect("nats://localhost:4222",
                              reconnected_cb=reconnected_cb,
@@ -44,9 +49,8 @@ class NATSServer:
 
             tasks = []
             for subscriber in subscribers:
-                tasks.append(
-                    asyncio.create_task(
-                        nc.subscribe(*subscriber)))
+                task = asyncio.create_task(nc.subscribe(*subscriber))
+                tasks.append(task)
 
             asyncio.gather(*tasks)
 
